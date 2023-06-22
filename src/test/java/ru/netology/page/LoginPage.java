@@ -30,28 +30,28 @@ public class LoginPage {
         errorInvalidPasswordOrLogin.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }
 
-    public void errorInTheSystemEmptyLoginField(String expectedText) {
-        passwordToLogInToTheSystem.setValue(DataHelper.getARandomPassword());
+    public void errorInTheSystemEmptyLoginField(String password, String expectedText) {
+        passwordToLogInToTheSystem.setValue(password);
         continueButton.click();
         errorYouNeedToFillInTheLoginField.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }
 
-    public void errorInTheSystemEmptyPasswordField(String expectedText) {
-        loginToLogInToTheSystem.setValue(DataHelper.getARandomLogin());
+    public void errorInTheSystemEmptyPasswordField(String login, String expectedText) {
+        loginToLogInToTheSystem.setValue(login);
         continueButton.click();
         errorYouNeedToFillInThePasswordField.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }
 
-    public void logInUsingARegisteredUsernameAndARandomPassword(String expectedText) {
-        loginToLogInToTheSystem.setValue("vasya");
-        passwordToLogInToTheSystem.setValue(DataHelper.getARandomPassword());
+    public void logInUsingARegisteredUsernameAndARandomPassword(String login, String password, String expectedText) {
+        loginToLogInToTheSystem.setValue(login);
+        passwordToLogInToTheSystem.setValue(password);
         continueButton.click();
         errorInvalidPasswordOrLogin.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }
 
-    public void logInUsingARegisteredPasswordAndARandomUsername(String expectedText) {
-        loginToLogInToTheSystem.setValue(DataHelper.getARandomLogin());
-        passwordToLogInToTheSystem.setValue("12345");
+    public void logInUsingARegisteredPasswordAndARandomUsername(String login, String password, String expectedText) {
+        loginToLogInToTheSystem.setValue(login);
+        passwordToLogInToTheSystem.setValue(password);
         continueButton.click();
         errorInvalidPasswordOrLogin.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }

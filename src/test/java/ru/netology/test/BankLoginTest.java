@@ -13,10 +13,10 @@ import static com.codeborne.selenide.Selenide.open;
 
 
 public class BankLoginTest {
-    @AfterAll
-    static void teardown() {
-        SQLHelper.cleanDatabase();
-    }
+//    @AfterAll
+//    static void teardown() {
+//        SQLHelper.cleanDatabase();
+//    }
 
     @Test
     @DisplayName("Успешный вход в личный кабинет системы")
@@ -33,28 +33,30 @@ public class BankLoginTest {
     @DisplayName("Вход используя зарегистрированный логин и рандомный пароль")
     public void loginUsingARegisteredUsernameAndARandomPassword() {
         var loginPage = open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword("Ошибка! Неверно указан логин или пароль");
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
     }
 
     @Test
     @DisplayName("Вход в систему с пустым полем логина")
     public void LogInWithAnEmptyLoginField() {
         var loginPage = open("http://localhost:9999/", LoginPage.class);
-        loginPage.errorInTheSystemEmptyLoginField("Поле обязательно для заполнения");
+        loginPage.errorInTheSystemEmptyLoginField(DataHelper.getTheInformationOfARegisteredUser().getPassword(), "Поле обязательно для заполнения");
     }
 
     @Test
     @DisplayName("Вход используя зарегистрированный  пароль  и рандомный логин")
     public void loginUsingARegisteredPasswordAndARandomUsername() {
         var loginPage = open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredPasswordAndARandomUsername("Ошибка! Неверно указан логин или пароль");
+        loginPage.logInUsingARegisteredPasswordAndARandomUsername(DataHelper.getARandomLogin()
+                , DataHelper.getTheInformationOfARegisteredUser().getPassword(), "Ошибка! Неверно указан логин или пароль");
     }
 
     @Test
     @DisplayName("Вход в систему с пустым полем пароля")
     public void LogInWithAnEmptyPasswordField() {
         var loginPage = open("http://localhost:9999/", LoginPage.class);
-        loginPage.errorInTheSystemEmptyPasswordField("Поле обязательно для заполнения");
+        loginPage.errorInTheSystemEmptyPasswordField(DataHelper.getTheInformationOfARegisteredUser().getLogin(), "Поле обязательно для заполнения");
     }
 
     @Test
@@ -102,26 +104,48 @@ public class BankLoginTest {
 
 
     @Test
+    /////
     @DisplayName("Вход в систему с использованием  неправильного пароля три раза")
-    public void LoggingInUsingTheWrongPasswordThreeTimes() {
+    public void LoggingInUsingTheWrongPasswordThreeTimesTextFirst() {
 
         var loginPage = open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword("Ошибка! Неверно указан логин или пароль");
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
 
         open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword("Ошибка! Неверно указан логин или пароль");
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
 
         open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword("Ошибка! Неверно указан логин или пароль");
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
 
 
         var authInfo = DataHelper.getTheInformationOfARegisteredUser();
 
         Assertions.assertEquals("blocked", SQLHelper.getUserStatus(authInfo.getLogin()));
+    }
+
+    @Test
+    @DisplayName("Вход в систему с использованием  неправильного пароля три раза")
+    public void LoggingInUsingTheWrongPasswordThreeTimesTextSecond() {
+
+        var loginPage = open("http://localhost:9999/", LoginPage.class);
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
+
+        open("http://localhost:9999/", LoginPage.class);
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
+
+        open("http://localhost:9999/", LoginPage.class);
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
 
 
         open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword("Ошибка! Данный пользователь заблокирован");
+        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
+                , DataHelper.getTheInformationOfARegisteredUser().getPassword(), "Ошибка! Данный пользователь заблокирован");
 
     }
 
