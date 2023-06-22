@@ -13,10 +13,10 @@ import static com.codeborne.selenide.Selenide.open;
 
 
 public class BankLoginTest {
-//    @AfterAll
-//    static void teardown() {
-//        SQLHelper.cleanDatabase();
-//    }
+    @AfterAll
+    static void teardown() {
+        SQLHelper.cleanDatabase();
+    }
 
     @Test
     @DisplayName("Успешный вход в личный кабинет системы")
