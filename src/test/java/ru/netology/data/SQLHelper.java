@@ -44,7 +44,7 @@ public class SQLHelper {
 
     @SneakyThrows
     public static DataHelper.VerificationCode getOutdatedTheVerificationCode() {
-        var codeSQL = "SELECT code FROM auth_codes ORDER by created  LIMIT 1";
+        var codeSQL = "SELECT code FROM auth_codes ORDER by created  LIMIT 1 ";
         var conn = getConn();
         var code = runner.query(conn, codeSQL, new ScalarHandler<String>());
         return new DataHelper.VerificationCode(code);

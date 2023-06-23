@@ -99,12 +99,14 @@ public class BankLoginTest {
         var authInfo = DataHelper.getTheInformationOfARegisteredUser();
         var verificationPage = loginPage.validLoginData(authInfo);
         verificationPage.verifyVerificationPageVisiblity();
+        var verificationCode = SQLHelper.getTheVerificationCode();
+        verificationPage.validVerify(verificationCode.getCode());
 
         open("http://localhost:9999/", LoginPage.class);
         loginPage.validLoginData(authInfo);
         verificationPage.verifyVerificationPageVisiblity();
 
-        var verificationCode = SQLHelper.getOutdatedTheVerificationCode();
+        verificationCode = SQLHelper.getOutdatedTheVerificationCode();
         verificationPage.verify(verificationCode.getCode());
         verificationPage.errorRandomConfirmationCode("Ошибка! Неверно указан код! Попробуйте ещё раз.");
     }
