@@ -28,6 +28,13 @@ public class SQLHelper {
     }
 
     @SneakyThrows
+    public static void cleaningTheTableWithVerificationCodes() {
+        var connection = getConn();
+        runner.execute(connection, "DELETE FROM auth_codes");
+    }
+
+
+    @SneakyThrows
     public static DataHelper.VerificationCode getTheVerificationCode() {
         var codeSQL = "SELECT code FROM auth_codes ORDER by created DESC LIMIT 1";
         var conn = getConn();

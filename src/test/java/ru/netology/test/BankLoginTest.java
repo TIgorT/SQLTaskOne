@@ -81,6 +81,7 @@ public class BankLoginTest {
         verificationPage.errorRandomConfirmationCode("Ошибка! Неверно указан код! Попробуйте ещё раз.");
     }
 
+
     @Test
     @DisplayName("Вход в систему с пустым полем  код смс")
     public void LoggingInWithAnEmptySmsCodeField() {
@@ -93,10 +94,16 @@ public class BankLoginTest {
     @Test
     @DisplayName("Вход в систему используя устаревший  код подтверждения")
     public void logInUsingAnOutdatedConfirmationCode() {
+        SQLHelper.cleaningTheTableWithVerificationCodes();
         var loginPage = open("http://localhost:9999/", LoginPage.class);
         var authInfo = DataHelper.getTheInformationOfARegisteredUser();
         var verificationPage = loginPage.validLoginData(authInfo);
         verificationPage.verifyVerificationPageVisiblity();
+
+        open("http://localhost:9999/", LoginPage.class);
+        loginPage.validLoginData(authInfo);
+        verificationPage.verifyVerificationPageVisiblity();
+
         var verificationCode = SQLHelper.getOutdatedTheVerificationCode();
         verificationPage.verify(verificationCode.getCode());
         verificationPage.errorRandomConfirmationCode("Ошибка! Неверно указан код! Попробуйте ещё раз.");
@@ -104,7 +111,6 @@ public class BankLoginTest {
 
 
     @Test
-    /////
     @DisplayName("Вход в систему с использованием  неправильного пароля три раза")
     public void LoggingInUsingTheWrongPasswordThreeTimesTextFirst() {
 
@@ -122,32 +128,11 @@ public class BankLoginTest {
 
 
         var authInfo = DataHelper.getTheInformationOfARegisteredUser();
-
         Assertions.assertEquals("blocked", SQLHelper.getUserStatus(authInfo.getLogin()));
-    }
-
-    @Test
-    @DisplayName("Вход в систему с использованием  неправильного пароля три раза")
-    public void LoggingInUsingTheWrongPasswordThreeTimesTextSecond() {
-
-        var loginPage = open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
-                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
-
-        open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
-                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
-
-        open("http://localhost:9999/", LoginPage.class);
-        loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
-                , DataHelper.getARandomPassword(), "Ошибка! Неверно указан логин или пароль");
 
 
         open("http://localhost:9999/", LoginPage.class);
         loginPage.logInUsingARegisteredUsernameAndARandomPassword(DataHelper.getTheInformationOfARegisteredUser().getLogin()
                 , DataHelper.getTheInformationOfARegisteredUser().getPassword(), "Ошибка! Данный пользователь заблокирован");
-
     }
-
-
 }

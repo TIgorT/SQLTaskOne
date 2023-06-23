@@ -39,5 +39,4 @@ public class VerificationPage {
         verificationCodeError.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }
 
-
 }
