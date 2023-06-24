@@ -108,7 +108,7 @@ public class BankLoginTest {
 
         verificationCode = SQLHelper.getOutdatedTheVerificationCode();
         verificationPage.verify(verificationCode.getCode());
-        verificationPage.errorRandomConfirmationCode("Ошибка! Неверно указан код! Попробуйте ещё раз.");
+        verificationPage.errorOutdatedVerificationCode("Ошибка! Неверно указан код! Попробуйте ещё раз.");
     }
 
 

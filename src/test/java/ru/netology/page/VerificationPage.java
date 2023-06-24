@@ -5,8 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class VerificationPage {
@@ -37,6 +36,10 @@ public class VerificationPage {
 
     public void errorRandomConfirmationCode(String expectedText) {
         verificationCodeError.shouldHave(exactText(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
+    }
+
+    public void errorOutdatedVerificationCode(String expectedText) {
+        verificationCodeError.shouldHave(text(expectedText)).shouldBe(visible, Duration.ofMillis(5000));
     }
 
 }
